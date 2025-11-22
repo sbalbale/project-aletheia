@@ -5,6 +5,7 @@ import TheWatcher from "@/components/TheWatcher";
 import DataTerminal from "@/components/DataTerminal";
 import PrivacyToggle from "@/components/PrivacyToggle";
 import Manifesto from "@/components/Manifesto";
+import SensorRequest from "@/components/SensorRequest";
 
 export default function Home() {
   const [privacyMode, setPrivacyMode] = useState(false);
@@ -12,21 +13,22 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-950 text-slate-300 selection:bg-green-900 selection:text-green-100 overflow-x-hidden">
       {/* Header / Nav */}
-      <header className="fixed top-0 left-0 w-full p-6 z-40 pointer-events-none">
-        <div className="flex justify-between items-start">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tighter text-slate-100">
-              ALETHEIA
-            </h1>
-            <p className="text-xs text-slate-500 font-mono mt-1">
-              VER. 0.1.0 // PUBLIC BETA
-            </p>
-          </div>
+      <header className="relative w-full p-6 z-40 flex flex-col md:flex-row justify-between items-start gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tighter text-slate-100">
+            ALETHEIA
+          </h1>
+          <p className="text-xs text-slate-500 font-mono mt-1">
+            VER. 0.1.0 // PUBLIC BETA
+          </p>
         </div>
+
+        {/* Terminal moved into flow */}
+        <DataTerminal privacyMode={privacyMode} />
       </header>
 
       {/* 3D Visualization Layer */}
-      <section className="relative w-full h-[60vh] flex items-center justify-center">
+      <section className="relative w-full h-[50vh] md:h-[60vh] flex items-center justify-center">
         <TheWatcher privacyMode={privacyMode} />
 
         {/* Overlay Text */}
@@ -43,15 +45,19 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Privacy Toggle (In Flow) */}
+      <div className="w-full flex justify-center py-8 relative z-50">
+        <PrivacyToggle
+          privacyMode={privacyMode}
+          setPrivacyMode={setPrivacyMode}
+        />
+      </div>
+
       {/* Content Layer */}
       <Manifesto />
 
       {/* UI Overlays */}
-      <DataTerminal privacyMode={privacyMode} />
-      <PrivacyToggle
-        privacyMode={privacyMode}
-        setPrivacyMode={setPrivacyMode}
-      />
+      <SensorRequest />
     </main>
   );
 }

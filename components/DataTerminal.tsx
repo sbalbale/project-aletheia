@@ -22,7 +22,7 @@ export default function DataTerminal({ privacyMode }: DataTerminalProps) {
     let lastTime = Date.now();
     let idleTimer: NodeJS.Timeout;
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleInteraction = (clientX: number, clientY: number) => {
       clearTimeout(idleTimer);
 
       const now = Date.now();
@@ -30,13 +30,13 @@ export default function DataTerminal({ privacyMode }: DataTerminalProps) {
 
       if (dt > 50) {
         // Update every 50ms to calculate velocity
-        const dx = e.clientX - lastX;
-        const dy = e.clientY - lastY;
+        const dx = clientX - lastX;
+        const dy = clientY - lastY;
         const dist = Math.sqrt(dx * dx + dy * dy);
         const v = dist / dt; // pixels per ms
 
         setVelocity(v);
-        setMousePos({ x: e.clientX, y: e.clientY });
+        setMousePos({ x: Math.round(clientX), y: Math.round(clientY) });
 
         if (v > 0.3) {
           setStatus("DECISIVE");
@@ -44,8 +44,8 @@ export default function DataTerminal({ privacyMode }: DataTerminalProps) {
           setStatus("HESITANT");
         }
 
-        lastX = e.clientX;
-        lastY = e.clientY;
+        lastX = clientX;
+        lastY = clientY;
         lastTime = now;
       }
 
@@ -56,15 +56,71 @@ export default function DataTerminal({ privacyMode }: DataTerminalProps) {
       }, 200);
     };
 
+    const handleMouseMove = (e: MouseEvent) => {
+      handleInteraction(e.clientX, e.clientY);
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        handleInteraction(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    };
+
+    const handleMotion = (e: DeviceMotionEvent) => {
+      if (!e.rotationRate) return;
+
+      clearTimeout(idleTimer);
+
+      // Calculate magnitude of rotation
+      const alpha = e.rotationRate.alpha || 0;
+      const beta = e.rotationRate.beta || 0;
+      const gamma = e.rotationRate.gamma || 0;
+
+      // Simple magnitude check
+      const rotationMagnitude = Math.sqrt(
+        alpha * alpha + beta * beta + gamma * gamma
+      );
+
+      // Normalize to a "velocity" like metric (deg/s)
+      // Typical fast movement might be > 100 deg/s
+      setVelocity(rotationMagnitude / 10); // Scale down to look similar to pixel velocity
+
+      if (rotationMagnitude > 50) {
+        setStatus("DECISIVE");
+      } else if (rotationMagnitude > 5) {
+        setStatus("HESITANT");
+      } else {
+        // Very still
+        setStatus("IDLE"); // Or let the timer handle it
+      }
+
+      // Reset to IDLE if no movement
+      idleTimer = setTimeout(() => {
+        setStatus("IDLE");
+        setVelocity(0);
+      }, 200);
+    };
+
     window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("touchmove", handleTouchMove);
+
+    // Check if DeviceMotionEvent is available
+    if (typeof window !== "undefined" && "DeviceMotionEvent" in window) {
+      window.addEventListener("devicemotion", handleMotion);
+    }
+
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);
+      if (typeof window !== "undefined" && "DeviceMotionEvent" in window) {
+        window.removeEventListener("devicemotion", handleMotion);
+      }
       clearTimeout(idleTimer);
     };
   }, [privacyMode]);
 
   return (
-    <div className="fixed top-4 right-4 p-4 bg-slate-900/80 border border-slate-700 rounded font-mono text-xs md:text-sm z-50 w-64">
+    <div className="w-full md:w-64 p-4 bg-slate-900/90 md:bg-slate-900/80 border-y md:border border-slate-700 md:rounded font-mono text-xs md:text-sm z-50">
       <div className="flex justify-between items-center mb-2 border-b border-slate-700 pb-1">
         <span className="text-slate-400">TERMINAL_01</span>
         <span

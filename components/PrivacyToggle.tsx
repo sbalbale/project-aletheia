@@ -15,9 +15,8 @@ export default function PrivacyToggle({
     <button
       onClick={() => setPrivacyMode(!privacyMode)}
       className={`
-        fixed bottom-8 left-1/2 -translate-x-1/2 
         flex items-center gap-3 px-6 py-3 rounded-full 
-        border transition-all duration-300 z-50
+        border transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95
         ${
           privacyMode
             ? "bg-green-950/50 border-green-500 text-green-400 hover:bg-green-900/50"
