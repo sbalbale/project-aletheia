@@ -44,7 +44,10 @@ project-aletheia/
 │   ├── TheWatcher.tsx   # R3F Canvas and Logic
 │   ├── DataTerminal.tsx # The text readout overlay
 │   ├── Manifesto.tsx    # Static text content sections
-│   └── PrivacyToggle.tsx # Global state switch
+│   ├── PrivacyToggle.tsx # Global state switch
+│   └── SensorRequest.tsx # iOS Permission Request
+├── documentation/
+│   └── ngrok_guide.md   # Guide for local mobile testing
 ├── public/
 │   └── PLEDGE.md        # The Bodyright Compact
 └── next.config.js       # Static export config
@@ -71,6 +74,12 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+### 📱 Testing on Mobile
+
+To test the **accelerometer/gyroscope** features on your phone, you need a secure context (HTTPS). We recommend using **ngrok**.
+
+👉 **[Read the Mobile Testing Guide](documentation/ngrok_guide.md)**
+
 ## 🧩 Key Features
 
 ### 1. The Watcher (Biometric Visualization)
@@ -78,6 +87,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 A 3D mesh that tracks your mouse movements in real-time. This visualizes the "passive data" stream usually hidden from users.
 
 - _Located in:_ `components/TheWatcher.tsx`
+- **Mobile Support:** On mobile devices, The Watcher uses the **accelerometer and gyroscope** to track device orientation instead of mouse position, creating a physical window into the digital space.
 
 ### 2. The Inference Terminal
 
