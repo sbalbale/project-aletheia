@@ -20,8 +20,11 @@ export default function DataTerminal({ privacyMode }: DataTerminalProps) {
     let lastX = 0;
     let lastY = 0;
     let lastTime = Date.now();
+    let idleTimer: NodeJS.Timeout;
 
     const handleMouseMove = (e: MouseEvent) => {
+      clearTimeout(idleTimer);
+
       const now = Date.now();
       const dt = now - lastTime;
 
@@ -35,22 +38,29 @@ export default function DataTerminal({ privacyMode }: DataTerminalProps) {
         setVelocity(v);
         setMousePos({ x: e.clientX, y: e.clientY });
 
-        if (v > 1.5) {
+        if (v > 0.3) {
           setStatus("DECISIVE");
-        } else if (v > 0) {
-          setStatus("HESITANT");
         } else {
-          setStatus("IDLE");
+          setStatus("HESITANT");
         }
 
         lastX = e.clientX;
         lastY = e.clientY;
         lastTime = now;
       }
+
+      // Reset to IDLE if no movement for 100ms
+      idleTimer = setTimeout(() => {
+        setStatus("IDLE");
+        setVelocity(0);
+      }, 200);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      clearTimeout(idleTimer);
+    };
   }, [privacyMode]);
 
   return (
