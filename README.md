@@ -23,7 +23,7 @@ To argue against invasive data extraction, this website must embody the solution
 2.  **Client-Side Only:** All biometric simulation (The Watcher) and inference logic happens strictly on your device (Local Processing).
 3.  **No Trackers:** There are no cookies, no Google Analytics, and no third-party scripts.
 
-## 🏗 The Stack
+## 🧰 The Stack
 
 This project is engineered for transparency and minimalism:
 
