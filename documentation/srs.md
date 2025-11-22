@@ -13,13 +13,13 @@
 
 **Project Aletheia** is a single-page, static web application designed as a rhetorical artifact. Its primary purpose is to advocate for **"Privacy-by-Design"** in Extended Reality (XR) technologies.
 
-[cite_start]Current XR systems rely on the continuous collection of intimate, passive user data[cite: 9]. [cite_start]This application serves as a "living manifesto," utilizing an interactive 3D visualization to demonstrate to users how easily their passive data (specifically head motion and gaze patterns) can be tracked and used for inference by browser-based systems[cite: 10, 13].
+Current XR systems rely on the continuous collection of intimate, passive user data. This application serves as a "living manifesto," utilizing an interactive 3D visualization to demonstrate to users how easily their passive data (specifically head motion and gaze patterns) can be tracked and used for inference by browser-based systems.
 
 ---
 
 ## 2. Technical Stack & Environment
 
-[cite_start]To strictly adhere to the ethical principle of **Data Minimization**[cite: 41], the project must operate entirely client-side with no external data extraction.
+To strictly adhere to the ethical principle of **Data Minimization**, the project must operate entirely client-side with no external data extraction.
 
 - **Framework:** Next.js 14+ (App Router)
   - _Configuration:_ Must use `output: 'export'` for Static Site Generation (SSG).
@@ -42,7 +42,7 @@
 
 - **Description:** A 3D mesh (sphere or abstract head) rendered in the center of the viewport.
 - **Behavior:** The mesh must rotate to face the user's mouse cursor coordinates `(x, y)` in real-time.
-- [cite_start]**Rationale:** Visualizes the "passive collection" of head movements, which technical analyses have shown can uniquely identify users with 90% accuracy[cite: 13].
+- **Rationale:** Visualizes the "passive collection" of head movements, which technical analyses have shown can uniquely identify users with 90% accuracy.
 
 ### FR-02: Privacy Mode Toggle
 
@@ -51,20 +51,20 @@
   - UI displays status: "RECORDING."
 - **Behavior (State = Privacy):** \* The Watcher snaps to center `(0,0,0)` and halts tracking.
   - UI displays status: "PRIVACY MODE."
-- [cite_start]**Rationale:** Demonstrates the architectural difference between **Surveillance Capitalism** models and **Privacy-by-Design** models[cite: 26, 39].
+- **Rationale:** Demonstrates the architectural difference between **Surveillance Capitalism** models and **Privacy-by-Design** models .
 
 ### FR-03: Real-Time Data Inference Terminal
 
 - **Description:** A text-based overlay simulating a debugger console.
 - **Data Display:** Must show live raw coordinates and "Inferred Intent" string.
 - **Logic:** Simple conditional logic based on cursor velocity and position (e.g., if velocity is low over an element, output "User is Hesitant").
-- [cite_start]**Rationale:** Exposes the risk of **Biometric Psychography**, where systems infer sensitive information (health, concentration) without explicit consent[cite: 14, 54].
+- **Rationale:** Exposes the risk of **Biometric Psychography**, where systems infer sensitive information (health, concentration) without explicit consent.
 
 ### FR-04: The Developer Pledge
 
 - **Description:** A "Call to Action" section.
 - **Action:** An external link to the GitHub repository's `PLEDGE.md` file.
-- [cite_start]**Rationale:** Encourages a shift toward the IEEE "Bodyright" framework, treating biometric identity as a human right[cite: 102].
+- **Rationale:** Encourages a shift toward the IEEE "Bodyright" framework, treating biometric identity as a human right.
 
 ---
 
@@ -88,7 +88,7 @@
 - **Requirement:** High contrast text (WCAG AA standard).
 - **Requirement:** Reduced motion preference support.
   - _Logic:_ If system setting `prefers-reduced-motion` is detected, the 3D animation must be disabled by default.
-- [cite_start]**Rationale:** Aligns with the engineering focus on assisting visually impaired individuals, as explored in the "Haptic Horizon" project[cite: 523, 683].
+- **Rationale:** Aligns with the engineering focus on assisting visually impaired individuals, as explored in the "Haptic Horizon" project.
 
 ---
 
@@ -99,16 +99,16 @@ The rhetorical text must be integrated directly into the React components as sta
 - **Hero Headline:** "THE INTERNET IS VISITING YOU."
 - **Sub-Header:** "XR turns you into the data source. Stop the surveillance."
 - **Key Terminology:**
-  - [cite_start]"Biometric Psychography" [cite: 54]
-  - [cite_start]"Inferred Data" [cite: 97]
-  - [cite_start]"Embodied Harms" [cite: 60]
-  - [cite_start]"Bodyright" [cite: 102]
+  - "Biometric Psychography"
+  - "Inferred Data"
+  - "Embodied Harms"
+  - "Bodyright"
 
 ---
 
 ## 6. Directory Structure (Architecture)
 
-[cite_start]To ensure modularity and maintainability (similar to the code breakdown in the Haptic Horizon report [cite: 562]), the project will follow this structure:
+To ensure modularity and maintainability (similar to the code breakdown in the Haptic Horizon report), the project will follow this structure:
 
 ```text
 project-aletheia/
@@ -119,9 +119,9 @@ project-aletheia/
 │   ├── TheWatcher.tsx   # R3F Canvas and Logic
 │   ├── DataTerminal.tsx # The text readout overlay
 │   ├── Manifesto.tsx    # Static text content sections
-│   └── NavBar.tsx       # Contains the Privacy Toggle
+│   └── PrivacyToggle.tsx       # Contains the Privacy Toggle
 ├── public/
-│   └── textures/        # (Optional) Grid textures for 3D mesh
+│   └── PLEDGE.md        # The Bodyright Compact
 ├── styles/
 │   └── globals.css      # Tailwind directives
 └── next.config.js       # Static export config
