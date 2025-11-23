@@ -49,7 +49,7 @@ export default function Home() {
         </section>
 
         {/* Recording Status Text - In Flow */}
-        <div className="w-full flex justify-center py-4 shrink-0 relative z-40">
+        <div className="w-full flex justify-center py-2 shrink-0 relative z-40">
           <p
             className={`text-sm font-mono tracking-widest transition-colors duration-500 ${
               privacyMode ? "text-green-500" : "text-red-500"
@@ -65,7 +65,7 @@ export default function Home() {
         <SensorRequest />
 
         {/* Privacy Toggle (In Flow) - Padded to sit above fixed elements */}
-        <div className="w-full flex justify-center py-4 pb-8 md:pb-32 shrink-0 relative z-50">
+        <div className="w-full flex justify-center py-3 pb-8 md:pb-32 shrink-0 relative z-50">
           <PrivacyToggle
             privacyMode={privacyMode}
             setPrivacyMode={setPrivacyMode}
@@ -78,7 +78,7 @@ export default function Home() {
             hasScrolled ? "opacity-0" : "opacity-100"
           }`}
         >
-          <div className="flex flex-col items-center gap-2 animate-pulse [animation-duration:4s]">
+          <div className="flex flex-col items-center gap-2">
             <span className="text-[10px] font-mono text-slate-200 tracking-[0.2em] uppercase">
               Scroll for Truth
             </span>
@@ -87,7 +87,21 @@ export default function Home() {
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              style={{
+                animation: "arrowDrift 2s ease-in-out infinite",
+              }}
             >
+              <style jsx>{`
+                @keyframes arrowDrift {
+                  0%,
+                  100% {
+                    transform: translateY(0px);
+                  }
+                  50% {
+                    transform: translateY(4px);
+                  }
+                }
+              `}</style>
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
