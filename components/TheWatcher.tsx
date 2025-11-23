@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Sphere, MeshDistortMaterial } from "@react-three/drei";
 import { useRef, useEffect } from "react";
 import * as THREE from "three";
@@ -46,6 +46,15 @@ function Eye({ privacyMode }: { privacyMode: boolean }) {
     };
   }, [privacyMode]);
 
+  const { viewport } = useThree();
+  // Calculate scale to fit within the viewport, leaving some margin
+  // Calculate scale to fit within the viewport, leaving some margin
+  // Calculate scale to fit within the viewport, leaving some margin
+  // The sphere has a base radius of 1 (diameter 2)
+  // We want it to take up about 70% of the smallest dimension (0.35 * 2 = 0.7)
+  // This accounts for the distortion effect which expands the mesh bounds
+  const scale = Math.min(viewport.width, viewport.height) * 0.35;
+
   useFrame((state) => {
     if (!meshRef.current) return;
 
@@ -90,7 +99,7 @@ function Eye({ privacyMode }: { privacyMode: boolean }) {
   });
 
   return (
-    <Sphere ref={meshRef} args={[1, 32, 32]} scale={1.5}>
+    <Sphere ref={meshRef} args={[1, 32, 32]} scale={scale}>
       <MeshDistortMaterial
         color={privacyMode ? "#22c55e" : "#ef4444"} // Green for privacy, Red for recording
         wireframe
@@ -104,7 +113,7 @@ function Eye({ privacyMode }: { privacyMode: boolean }) {
 
 export default function TheWatcher({ privacyMode }: WatcherProps) {
   return (
-    <div className="w-full h-[500px] relative">
+    <div className="w-full h-full absolute inset-0">
       <Canvas camera={{ position: [0, 0, 5] }}>
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />

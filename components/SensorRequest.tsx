@@ -51,7 +51,7 @@ export default function SensorRequest() {
   if (!showRequest) return null;
 
   return (
-    <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50">
+    <div className="w-full flex justify-center py-4 relative md:fixed md:bottom-20 md:left-1/2 md:-translate-x-1/2 z-50">
       <button
         onClick={requestAccess}
         className="bg-red-500/20 hover:bg-red-500/40 text-red-400 border border-red-500/50 px-4 py-2 rounded font-mono text-xs backdrop-blur-sm transition-colors animate-pulse"
