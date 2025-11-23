@@ -11,6 +11,17 @@ export default function Home() {
   const [privacyMode, setPrivacyMode] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
   const [scrollTransitionSpeed, setScrollTransitionSpeed] = useState(500);
+  const [watcherHeight, setWatcherHeight] = useState<number | null>(null);
+
+  // Lock the watcher container height on mount to prevent resizing during scroll
+  useEffect(() => {
+    // Scale based on window size but lock it on mount
+    // Use less height on mobile to show scroll indicator
+    const isMobile = window.innerWidth < 768;
+    const scaledHeight = window.innerHeight * (isMobile ? 0.4 : 0.5);
+    const clampedHeight = Math.max(250, Math.min(600, scaledHeight));
+    setWatcherHeight(clampedHeight);
+  }, []);
 
   useEffect(() => {
     let lastScrollY = 0;
@@ -66,8 +77,11 @@ export default function Home() {
           <DataTerminal privacyMode={privacyMode} />
         </header>
 
-        {/* 3D Visualization Layer - Fills available space */}
-        <section className="relative w-full flex-1 flex flex-col items-center justify-center min-h-[300px]">
+        {/* 3D Visualization Layer - Fixed height to prevent resize during scroll */}
+        <section
+          className="relative w-full flex flex-col items-center justify-center"
+          style={{ height: watcherHeight ? `${watcherHeight}px` : "400px" }}
+        >
           <TheWatcher privacyMode={privacyMode} />
         </section>
 

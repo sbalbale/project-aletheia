@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Sphere, MeshDistortMaterial } from "@react-three/drei";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
 
 interface WatcherProps {
@@ -13,6 +13,12 @@ function Eye({ privacyMode }: { privacyMode: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const targetRotation = useRef({ x: 0, y: 0 });
   const hasOrientation = useRef(false);
+
+  // Lock scale on initial mount to prevent resizing during scroll
+  const { viewport } = useThree();
+  const [scale] = useState(
+    () => Math.min(viewport.width, viewport.height) * 0.3
+  );
 
   useEffect(() => {
     const handleOrientation = (event: DeviceOrientationEvent) => {
@@ -45,15 +51,6 @@ function Eye({ privacyMode }: { privacyMode: boolean }) {
       }
     };
   }, [privacyMode]);
-
-  const { viewport } = useThree();
-  // Calculate scale to fit within the viewport, leaving some margin
-  // Calculate scale to fit within the viewport, leaving some margin
-  // Calculate scale to fit within the viewport, leaving some margin
-  // The sphere has a base radius of 1 (diameter 2)
-  // We want it to take up about 70% of the smallest dimension (0.35 * 2 = 0.7)
-  // This accounts for the distortion effect which expands the mesh bounds
-  const scale = Math.min(viewport.width, viewport.height) * 0.3;
 
   useFrame((state) => {
     if (!meshRef.current) return;
