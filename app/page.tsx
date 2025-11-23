@@ -10,14 +10,37 @@ import SensorRequest from "@/components/SensorRequest";
 export default function Home() {
   const [privacyMode, setPrivacyMode] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
+  const [scrollTransitionSpeed, setScrollTransitionSpeed] = useState(500);
 
   useEffect(() => {
+    let lastScrollY = 0;
+    let lastScrollTime = Date.now();
+
     const handleScroll = () => {
-      if (window.scrollY > 50) {
+      const currentScrollY = window.scrollY;
+      const currentTime = Date.now();
+      const timeDelta = currentTime - lastScrollTime;
+      const scrollDelta = Math.abs(currentScrollY - lastScrollY);
+
+      // Calculate velocity (pixels per millisecond)
+      const velocity = timeDelta > 0 ? scrollDelta / timeDelta : 0;
+
+      // Map velocity to transition speed (faster scroll = faster fade)
+      // Clamp between 100ms (very fast) and 500ms (slow)
+      const transitionSpeed = Math.max(
+        100,
+        Math.min(500, 500 - velocity * 200)
+      );
+      setScrollTransitionSpeed(transitionSpeed);
+
+      if (currentScrollY > 50) {
         setHasScrolled(true);
       } else {
         setHasScrolled(false);
       }
+
+      lastScrollY = currentScrollY;
+      lastScrollTime = currentTime;
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -74,9 +97,12 @@ export default function Home() {
 
         {/* Scroll Indicator - In Flow on Mobile */}
         <div
-          className={`w-full flex justify-center py-4 relative md:fixed md:bottom-8 md:left-0 pointer-events-none transition-opacity duration-500 z-30 ${
+          className={`w-full flex justify-center py-4 relative md:fixed md:bottom-8 md:left-0 pointer-events-none transition-opacity z-30 ${
             hasScrolled ? "opacity-0" : "opacity-100"
           }`}
+          style={{
+            transitionDuration: `${scrollTransitionSpeed}ms`,
+          }}
         >
           <div className="flex flex-col items-center gap-2">
             <span className="text-[10px] font-mono text-slate-200 tracking-[0.2em] uppercase">
