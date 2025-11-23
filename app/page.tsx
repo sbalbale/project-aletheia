@@ -78,7 +78,7 @@ export default function Home() {
             hasScrolled ? "opacity-0" : "opacity-100"
           }`}
         >
-          <div className="flex flex-col items-center gap-2 animate-bounce">
+          <div className="flex flex-col items-center gap-2 animate-pulse [animation-duration:4s]">
             <span className="text-[10px] font-mono text-slate-200 tracking-[0.2em] uppercase">
               Scroll for Truth
             </span>
