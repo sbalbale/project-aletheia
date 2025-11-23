@@ -65,7 +65,7 @@ export default function Home() {
         <SensorRequest />
 
         {/* Privacy Toggle (In Flow) - Padded to sit above fixed elements */}
-        <div className="w-full flex justify-center py-8 pb-8 md:pb-32 shrink-0 relative z-50">
+        <div className="w-full flex justify-center py-4 pb-8 md:pb-32 shrink-0 relative z-50">
           <PrivacyToggle
             privacyMode={privacyMode}
             setPrivacyMode={setPrivacyMode}
@@ -79,11 +79,11 @@ export default function Home() {
           }`}
         >
           <div className="flex flex-col items-center gap-2 animate-bounce">
-            <span className="text-[10px] font-mono text-slate-400 tracking-[0.2em] uppercase">
+            <span className="text-[10px] font-mono text-slate-200 tracking-[0.2em] uppercase">
               Scroll for Truth
             </span>
             <svg
-              className="w-4 h-4 text-slate-400"
+              className="w-4 h-4 text-slate-200"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

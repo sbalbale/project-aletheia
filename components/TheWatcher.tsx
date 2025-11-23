@@ -53,7 +53,7 @@ function Eye({ privacyMode }: { privacyMode: boolean }) {
   // The sphere has a base radius of 1 (diameter 2)
   // We want it to take up about 70% of the smallest dimension (0.35 * 2 = 0.7)
   // This accounts for the distortion effect which expands the mesh bounds
-  const scale = Math.min(viewport.width, viewport.height) * 0.35;
+  const scale = Math.min(viewport.width, viewport.height) * 0.3;
 
   useFrame((state) => {
     if (!meshRef.current) return;
