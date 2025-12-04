@@ -53,7 +53,7 @@ export default function Manifesto() {
 
       <div className="mt-8">
         <a
-          href="/PLEDGE.md"
+          href="https://github.com/sbalbale/project-aletheia/blob/main/public/PLEDGE.md"
           target="_blank"
           className="inline-flex items-center gap-2 text-green-400 hover:text-green-300 underline decoration-green-500/30 hover:decoration-green-500 transition-all"
         >
